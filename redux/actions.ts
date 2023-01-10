@@ -1,9 +1,18 @@
-// import axios from "axios"
-// import { useState } from "react"
-// import { getUsers } from "../redux/actions"
+import axios from "axios"
 
+let url = 'http://localhost:8000';
+// if (process.env.NODE_ENV === 'production') {
+//   url = 'https://utnlogin.anlis.gob.ar'
+// } else {
+//   url = process.env.REACT_APP_APIPORT
+// }
 
-export default function Home() {
+export function getUsers(): any {
+  return axios.get(`${url}/user`)
+    .then(resp => console.log('getUsers response: ', resp))
+    .catch(error => console.log('Error en getUsers: ', error))
+}
+
   // const [employeesBro, setEmployeesBro] = useState<any[]>([])
 
   // const employee = {
@@ -33,21 +42,3 @@ export default function Home() {
   //   console.log('Users broder: ', users)
   //   // if(users.data) setEmployeesBro(users.data)
   // }
-
-  return (
-    <div className="flex flex-col place-content-center place-items-center h-screen w-screen bg-blue-500">
-      <h1 className="text-6xl">Mitash</h1>
-      <p className="text-xl">Seguimiento interno de equipos</p>
-      {/* <button className="btn" onClick={postEmployee}>Sumame al pato</button>
-      <button className="btn" onClick={postEmployee2}>Sumame a javier</button>
-      <button className="btn" onClick={getEmployees}>Traeme al pato y javi</button> */}
-      {/* {employeesBro.length
-        ? employeesBro.map((e, i) => {
-          return (
-            <h1 key={i}>{e.name}</h1>
-          )
-        })
-        : <h1>Sorry, no employees</h1>} */}
-    </div>
-  )
-}
