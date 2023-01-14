@@ -2,7 +2,6 @@
 // import { useState } from "react"
 // import { getUsers } from "../redux/actions"
 
-
 export default function Home() {
   // const [employeesBro, setEmployeesBro] = useState<any[]>([])
 
