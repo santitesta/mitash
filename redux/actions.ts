@@ -1,44 +1,24 @@
 import axios from "axios"
 
-let url = 'http://localhost:8000';
-// if (process.env.NODE_ENV === 'production') {
-//   url = 'https://utnlogin.anlis.gob.ar'
-// } else {
-//   url = process.env.REACT_APP_APIPORT
-// }
-
-export function getUsers(): any {
-  return axios.get(`${url}/user`)
-    .then(resp => console.log('getUsers response: ', resp))
-    .catch(error => console.log('Error en getUsers: ', error))
+let url: string;
+if (process.env.NODE_ENV === 'production') {
+  // The production url
+  // url = ''
+} else {
+  // The local host
+  url = 'http://localhost:3001';
 }
 
-  // const [employeesBro, setEmployeesBro] = useState<any[]>([])
+let token = process.env.NEXT_PUBLIC_TOKEN;
+console.log('Token brodi: ', token)
 
-  // const employee = {
-  //   name: 'Pato fontanet',
-  //   role: 'Tiburon'
-  // }
-
-  // const employee2 = {
-  //   name: 'Javier el galan',
-  //   role: 'Doble de riesgo'
-  // }
-
-  // function postEmployee() {
-  //   axios.post('http://localhost:8000/newemployee', employee)
-  //     .then(resp => console.log('Todo bien cabro: ', resp))
-  //     .catch(error => console.log('Se rompio tooo'))
-  // }
-
-  // function postEmployee2() {
-  //   axios.post('http://localhost:8000/newemployee', employee2)
-  //     .then(resp => console.log('Todo bien cabro: ', resp))
-  //     .catch(error => console.log('Se rompio tooo'))
-  // }
-
-  // async function getEmployees() {
-  //   const users = await getUsers()
-  //   console.log('Users broder: ', users)
-  //   // if(users.data) setEmployeesBro(users.data)
-  // }
+export function getUsers(): any {
+  console.log('Token in get users: ', token)
+  return axios.get(`${url}/user`, {
+    headers: {
+      "Authorization": `Token ${token}`
+    }
+  })
+    .then(res => console.log('Res: ', res))
+    .catch(error => console.log('Error en getUsers: ', error))
+}
