@@ -2,7 +2,9 @@ import React from 'react'
 
 const UserCreation = () => {
   return (
-    <div>UserCreation</div>
+    <div>
+      UserCreation
+    </div>
   )
 }
 
