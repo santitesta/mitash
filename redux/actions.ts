@@ -1,5 +1,6 @@
 import axios from "axios"
 
+let token: string = process.env.NEXT_PUBLIC_TOKEN as string;
 let url: string;
 if (process.env.NODE_ENV === 'production') {
   // The production url
@@ -9,16 +10,18 @@ if (process.env.NODE_ENV === 'production') {
   url = 'http://localhost:3001';
 }
 
-let token = process.env.NEXT_PUBLIC_TOKEN;
-console.log('Token brodi: ', token)
+export const GET_USERS = "GET_USERS"
 
 export function getUsers(): any {
-  console.log('Token in get users: ', token)
-  return axios.get(`${url}/user`, {
-    headers: {
-      "Authorization": `Token ${token}`
-    }
-  })
-    .then(res => console.log('Res: ', res))
-    .catch(error => console.log('Error en getUsers: ', error))
+  return function (dispatch: any) {
+    return axios.get(`${url}/user`, {
+      headers: {
+        "Authorization": `Token ${token}`
+      }
+    })
+      .then(res => {
+        dispatch({ type: GET_USERS, payload: res.data })
+      })
+      .catch(error => console.log('Error en getUsers: ', error))
+  }
 }

@@ -1,12 +1,22 @@
 import Head from 'next/head'
 import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Layout from '../../components/layout'
+import { useAppDispatch, useAppSelector } from '../../hookts'
 import { getUsers } from '../../redux/actions'
 
 const UsersGrid = () => {
+  const dispatch = useAppDispatch()
+  const users = useAppSelector(state => state.users)
+  console.log('Users: ', users)
 
   useEffect(() => {
-    getUsers()
+    async function loadUsers() {
+      // setLoading(true) //TBD
+      await dispatch(getUsers())
+      // setLoading(false) //TBD
+    }
+    loadUsers()
   }, [])
 
   return (
