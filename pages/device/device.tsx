@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../../components/layout";
 import Head from "next/head";
+import { useAppDispatch, useAppSelector } from "../../hookts";
+import { getDevices } from "../../redux/actions";
 
 const Device = () => {
+  const dispatch = useAppDispatch();
+  const devices: any = useAppSelector((state) => state.devices);
+  console.log("Devices in tsx: ", devices);
+
+  useEffect(() => {
+    async function loadDevices() {
+      // setLoading(true) //TBD
+      await dispatch(getDevices());
+      // setLoading(false) //TBD
+    }
+    loadDevices();
+  }, []);
+
   return (
     <Layout>
       <Head>
@@ -20,13 +35,21 @@ const Device = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <th>1235125</th>
-              <td>Freezer</td>
-              <td>Oski</td>
-              <td>Tesla</td>
-            </tr>
+            {devices?.map((d: any) => {
+              return (
+                <tr>
+                  <td>{d.id}</td>
+                  <td>{d.serialNumber}</td>
+                  <td>{d.type}</td>
+                  <td>{d.inCharge.username}</td>
+                  <td>{d.owner.name}</td>
+                  {/* <td>
+                    TBD User Deletion
+                    <label className="btn btn-xs btn-circle bg-error">X</label>
+                  </td> */}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

@@ -7,8 +7,6 @@ import { getUsers } from "../../redux/actions";
 const UsersGrid = () => {
   const dispatch = useAppDispatch();
   const users: any = useAppSelector((state) => state.users);
-  console.log("Users: ", users);
-  console.log("Typeof: ", typeof users);
 
   useEffect(() => {
     async function loadUsers() {
