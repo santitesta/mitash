@@ -12,6 +12,7 @@ if (process.env.NODE_ENV === "production") {
 
 export const GET_USERS = "GET_USERS";
 export const GET_DEVICES = "GET_DEVICES";
+export const GET_CLIENTS = "GET_CLIENTS";
 
 export function getUsers(): any {
   return function (dispatch: any) {
@@ -40,5 +41,20 @@ export function getDevices(): any {
         dispatch({ type: GET_DEVICES, payload: res.data });
       })
       .catch((error) => console.log("Error en getDevices: ", error));
+  };
+}
+
+export function getClients(): any {
+  return function (dispatch: any) {
+    return axios
+      .get(`${url}/clients`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((res) => {
+        dispatch({ type: GET_CLIENTS, payload: res.data });
+      })
+      .catch((error) => console.log("Error en getClients: ", error));
   };
 }

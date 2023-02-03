@@ -1,8 +1,9 @@
-import { GET_USERS, GET_DEVICES } from "./actions";
+import { GET_USERS, GET_DEVICES, GET_CLIENTS } from "./actions";
 
 const initialState = {
   users: [],
   devices: [],
+  clients: [],
 };
 
 export function rootReducer(
@@ -15,6 +16,9 @@ export function rootReducer(
 
     case GET_DEVICES:
       return { ...state, devices: payload };
+
+    case GET_CLIENTS:
+      return { ...state, clients: payload };
 
     default:
       return state;
