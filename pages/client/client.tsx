@@ -2,23 +2,20 @@ import Head from 'next/head'
 import React from 'react'
 import Layout from '../../components/layout'
 
-const Clients = () => {
+const Client = () => {
   return (
     <Layout>
       <Head>
         <title>Clientes</title>
       </Head>
-      <div className='w-full h-full flex place-content-center'>
+      <div className='w-full mt-10 flex place-content-center'>
         <table className="table">
           <thead>
             <tr>
-              <th>Company</th>
+              <th>Empresa</th>
               <th>Email</th>
               <th>Celular</th>
-              <th>Dirección</th>
               <th>Sucursal</th>
-              <th>Horario</th>
-              <th>CUIT</th>
               <th>Email de pago</th>
               <th>Teléfono de pago</th>
               <th>Email de tesorería</th>
@@ -30,12 +27,9 @@ const Clients = () => {
               <td>Cy Ganderton</td>
               <td>Cy Ganderton</td>
               <td>Cy Ganderton</td>
-              <td>Cy Ganderton</td>
-              <td>Cy Ganderton</td>
-              <td>Cy Ganderton</td>
               <th>Tecnico</th>
               <td>Quality Control Specialist@batman</td>
-              <td><label className="btn btn-xs btn-circle bg-error">X</label></td>
+              <td>Quality Control Specialist@batman</td>
             </tr>
           </tbody>
         </table >
@@ -44,4 +38,4 @@ const Clients = () => {
   )
 }
 
-export default Clients
+export default Client

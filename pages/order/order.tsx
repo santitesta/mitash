@@ -2,13 +2,13 @@ import Head from 'next/head'
 import React from 'react'
 import Layout from '../../components/layout'
 
-const Orders = () => {
+const Order = () => {
   return (
     <Layout>
       <Head>
         <title>Usuarios</title>
       </Head>
-      <div className='w-full h-full flex place-content-center'>
+      <div className='w-full mt-10 flex place-content-center'>
         <table className="table">
           <thead>
             <tr>
@@ -34,4 +34,4 @@ const Orders = () => {
   )
 }
 
-export default Orders
+export default Order
