@@ -14,7 +14,7 @@ export const GET_USERS = "GET_USERS"
 
 export function getUsers(): any {
   return function (dispatch: any) {
-    return axios.get(`${url}/user`, {
+    return axios.get(`${url}/users`, {
       headers: {
         "Authorization": `Token ${token}`
       }
