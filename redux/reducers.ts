@@ -1,4 +1,4 @@
-import { GET_USERS, GET_DEVICES, GET_CLIENTS } from "./actions";
+import { GET_USERS, GET_DEVICES, GET_CLIENTS, CREATE_USER } from "./actions";
 
 const initialState = {
   users: [],
@@ -19,6 +19,9 @@ export function rootReducer(
 
     case GET_CLIENTS:
       return { ...state, clients: payload };
+
+    case CREATE_USER:
+      return { ...state, users: [...state.users, payload.user] };
 
     default:
       return state;

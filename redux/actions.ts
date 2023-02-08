@@ -11,11 +11,12 @@ if (process.env.NODE_ENV === "production") {
 }
 
 export const GET_USERS = "GET_USERS";
+export const CREATE_USER = "CREATE_USER";
 export const GET_DEVICES = "GET_DEVICES";
 export const GET_CLIENTS = "GET_CLIENTS";
 
 export function getUsers(): any {
-  return function (dispatch: any) {
+  return async function (dispatch: any) {
     return axios
       .get(`${url}/users`, {
         headers: {
@@ -29,8 +30,30 @@ export function getUsers(): any {
   };
 }
 
+export function createUser(user: any): any {
+  return async function (dispatch: any) {
+    return axios
+      .post(`${url}/user`, {
+        user,
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((res) => {
+        dispatch({ type: CREATE_USER, payload: res.data });
+      })
+      .catch((error) =>
+        console.log(
+          "Error en createUser: ",
+          error.message,
+          error.response.data.message
+        )
+      );
+  };
+}
+
 export function getDevices(): any {
-  return function (dispatch: any) {
+  return async function (dispatch: any) {
     return axios
       .get(`${url}/devices`, {
         headers: {
@@ -45,7 +68,7 @@ export function getDevices(): any {
 }
 
 export function getClients(): any {
-  return function (dispatch: any) {
+  return async function (dispatch: any) {
     return axios
       .get(`${url}/clients`, {
         headers: {
