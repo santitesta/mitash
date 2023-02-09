@@ -6,7 +6,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div className="w-full h-screen bg-blue-400">
+    <div className="min-h-screen">
       <Navbar />
       {children}
     </div>

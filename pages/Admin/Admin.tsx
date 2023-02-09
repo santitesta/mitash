@@ -1,10 +1,9 @@
 import Head from "next/head";
 import React, { useEffect } from "react";
 import Layout from "../../components/layout";
-import { useAppDispatch, useAppSelector } from "../../hookts";
+import { useAppDispatch, useAppSelector } from "../../customHooks";
 import { createUser, getUsers } from "../../redux/actions";
 import { useForm } from "react-hook-form";
-import Modal from "../../components/Modal";
 
 const UsersGrid = () => {
   const dispatch = useAppDispatch();
@@ -62,9 +61,9 @@ const UsersGrid = () => {
               <option value="Director">Director</option>
             </select>
             <input
-              className="input hover:cursor-pointer"
+              className="input bg-green-800 hover:cursor-pointer hover:bg-green-500 hover:text-black"
               type="submit"
-              value="bro"
+              value="Crear usuario"
             />
           </form>
           <div className="flex flex-col w-full items-center">

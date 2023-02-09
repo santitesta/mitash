@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Layout from "../../components/layout";
 import Head from "next/head";
-import { useAppDispatch, useAppSelector } from "../../hookts";
+import { useAppDispatch, useAppSelector } from "../../customHooks";
 import { getDevices } from "../../redux/actions";
 
 const Device = () => {
@@ -41,8 +41,8 @@ const Device = () => {
                   <td>{d.id}</td>
                   <td>{d.serialNumber}</td>
                   <td>{d.type}</td>
-                  <td>{d.inCharge.username}</td>
-                  <td>{d.owner.name}</td>
+                  <td>{d.inCharge?.username}</td>
+                  <td>{d.owner?.name}</td>
                   {/* <td>
                     TBD User Deletion
                     <label className="btn btn-xs btn-circle bg-error">X</label>

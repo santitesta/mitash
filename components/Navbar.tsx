@@ -3,7 +3,7 @@ import React from 'react'
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100 flex justify-center gap-20 w-full">
+    <div className="navbar bg-slate-800 flex justify-center gap-20 w-full">
       <Link href="/" className="btn btn-ghost normal-case text-xl">Inicio</Link>
       <Link href="/device/device" className="btn btn-ghost normal-case text-xl">Equipos</Link>
       <Link href="/order/order" className="btn btn-ghost normal-case text-xl">Ordenes</Link>

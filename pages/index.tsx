@@ -8,7 +8,7 @@ export default function Home() {
       <Head>
         <title>Mitash</title>
       </Head>
-      <div className="flex flex-col place-content-center place-items-center h-screen w-full bg-blue-500">
+      <div className="flex flex-col place-content-center place-items-center h-screen w-full text-gray-900">
         <h1 className="text-6xl">Mitash</h1>
         <p className="text-xl">Seguimiento interno de equipos</p>
       </div>

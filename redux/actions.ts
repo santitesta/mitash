@@ -14,6 +14,7 @@ export const GET_USERS = "GET_USERS";
 export const CREATE_USER = "CREATE_USER";
 export const GET_DEVICES = "GET_DEVICES";
 export const GET_CLIENTS = "GET_CLIENTS";
+export const CREATE_CLIENT = "CREATE_CLIENT";
 
 export function getUsers(): any {
   return async function (dispatch: any) {
@@ -79,5 +80,27 @@ export function getClients(): any {
         dispatch({ type: GET_CLIENTS, payload: res.data });
       })
       .catch((error) => console.log("Error en getClients: ", error));
+  };
+}
+
+export function createClient(client: any): any {
+  return async function (dispatch: any) {
+    return axios
+      .post(`${url}/client`, {
+        client,
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((res) => {
+        dispatch({ type: CREATE_CLIENT, payload: res.data });
+      })
+      .catch((error) =>
+        console.log(
+          "Error en createClient: ",
+          error.message,
+          error.response.data.message
+        )
+      );
   };
 }
