@@ -4,6 +4,7 @@ import {
   GET_CLIENTS,
   CREATE_USER,
   CREATE_CLIENT,
+  CREATE_DEVICE,
 } from "./actions";
 
 const initialState = {
@@ -25,6 +26,9 @@ export function rootReducer(
 
     case GET_DEVICES:
       return { ...state, devices: payload };
+
+    case CREATE_DEVICE:
+      return { ...state, devices: [...state.devices, payload.device] };
 
     case GET_CLIENTS:
       return { ...state, clients: payload };

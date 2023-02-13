@@ -33,7 +33,7 @@ const Client = () => {
         <div className="flex flex-col gap-5 w-full items-center">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="p-1 gap-2 flex w-2/5 bg-white border-2 border-black place-content-center"
+            className="p-1 gap-2 flex bg-white border-2 border-black place-content-center"
           >
             <div className="flex flex-col gap-2">
               <input
@@ -110,9 +110,9 @@ const Client = () => {
                 </tr>
               </thead>
               <tbody>
-                {clients?.map((c: any) => {
+                {clients?.map((c: any, index: number) => {
                   return (
-                    <tr>
+                    <tr key={index}>
                       <td>{c.company}</td>
                       <td>{c.name}</td>
                       <td>{c.email}</td>

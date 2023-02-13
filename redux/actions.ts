@@ -13,6 +13,7 @@ if (process.env.NODE_ENV === "production") {
 export const GET_USERS = "GET_USERS";
 export const CREATE_USER = "CREATE_USER";
 export const GET_DEVICES = "GET_DEVICES";
+export const CREATE_DEVICE = "CREATE_DEVICE";
 export const GET_CLIENTS = "GET_CLIENTS";
 export const CREATE_CLIENT = "CREATE_CLIENT";
 
@@ -65,6 +66,28 @@ export function getDevices(): any {
         dispatch({ type: GET_DEVICES, payload: res.data });
       })
       .catch((error) => console.log("Error en getDevices: ", error));
+  };
+}
+
+export function createDevice(data: any): any {
+  return async function (dispatch: any) {
+    return axios
+      .post(`${url}/device/${data.clientId}`, {
+        device: data.device,
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((res) => {
+        dispatch({ type: CREATE_DEVICE, payload: res.data });
+      })
+      .catch((error) =>
+        console.log(
+          "Error en createUser: ",
+          error.message,
+          error.response.data.message
+        )
+      );
   };
 }
 
