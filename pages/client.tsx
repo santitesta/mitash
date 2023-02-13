@@ -1,8 +1,8 @@
 import Head from "next/head";
 import React, { useEffect } from "react";
-import Layout from "../../components/layout";
-import { createClient, getClients } from "../../redux/actions";
-import { useAppDispatch, useAppSelector } from "../../customHooks";
+import Layout from "../components/layout";
+import { createClient, getClients } from "../redux/actions";
+import { useAppDispatch, useAppSelector } from "../customHooks";
 import { useForm } from "react-hook-form";
 
 const Client = () => {

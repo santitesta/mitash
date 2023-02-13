@@ -1,8 +1,8 @@
 import Head from "next/head";
 import React, { useEffect } from "react";
-import Layout from "../../components/layout";
-import { useAppDispatch, useAppSelector } from "../../customHooks";
-import { createOrder, getOrders } from "../../redux/actions";
+import Layout from "../components/layout";
+import { useAppDispatch, useAppSelector } from "../customHooks";
+import { createOrder, getOrders } from "../redux/actions";
 import { useForm } from "react-hook-form";
 
 const Order = () => {
