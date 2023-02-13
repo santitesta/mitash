@@ -16,6 +16,8 @@ export const GET_DEVICES = "GET_DEVICES";
 export const CREATE_DEVICE = "CREATE_DEVICE";
 export const GET_CLIENTS = "GET_CLIENTS";
 export const CREATE_CLIENT = "CREATE_CLIENT";
+export const GET_ORDERS = "GET_ORDERS";
+export const CREATE_ORDER = "CREATE_ORDER";
 
 export function getUsers(): any {
   return async function (dispatch: any) {
@@ -121,6 +123,43 @@ export function createClient(client: any): any {
       .catch((error) =>
         console.log(
           "Error en createClient: ",
+          error.message,
+          error.response.data.message
+        )
+      );
+  };
+}
+
+export function getOrders(): any {
+  return async function (dispatch: any) {
+    return axios
+      .get(`${url}/orders`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((res) => {
+        dispatch({ type: GET_ORDERS, payload: res.data });
+      })
+      .catch((error) => console.log("Error en getOrders: ", error));
+  };
+}
+
+export function createOrder(order: any): any {
+  return async function (dispatch: any) {
+    return axios
+      .post(`${url}/order`, {
+        order,
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((res) => {
+        dispatch({ type: CREATE_ORDER, payload: res.data });
+      })
+      .catch((error) =>
+        console.log(
+          "Error en createOrder: ",
           error.message,
           error.response.data.message
         )

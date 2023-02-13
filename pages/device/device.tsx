@@ -29,7 +29,6 @@ const Device = () => {
         type: data.type,
       },
     };
-    console.log("Dto: ", dto);
     await dispatch(createDevice(dto));
     reset();
   }
