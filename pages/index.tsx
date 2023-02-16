@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../customHooks";
 import { checkAuth, login, logout } from "../redux/actions";
 import { useEffect } from "react";
+import Navbar from "../components/Navbar";
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -11,7 +12,8 @@ export default function Home() {
   const authToken: string = useAppSelector((store) => store.token);
 
   useEffect(() => {
-    let token: any = localStorage.getItem("token");
+    let token: string | null = localStorage.getItem("token");
+    if (!token) token = "";
     dispatch(checkAuth(token));
   }, []);
 
@@ -21,11 +23,12 @@ export default function Home() {
   }
 
   async function handleLogout(): Promise<any> {
-    await dispatch(logout())
+    await dispatch(logout());
   }
 
   return (
-    <Layout>
+    <div className="min-h-screen">
+      <Navbar />
       <Head>
         <title>Mitash</title>
       </Head>
@@ -78,6 +81,6 @@ export default function Home() {
           </>
         )}
       </div>
-    </Layout>
+    </div>
   );
 }

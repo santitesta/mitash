@@ -29,9 +29,11 @@ export function rootReducer(
       return { ...state, token: payload };
 
     case LOGIN:
+      localStorage.setItem("token", payload.user.token);
       return { ...state, token: payload.user.token };
 
     case LOGOUT:
+      localStorage.removeItem("token");
       return { ...state, token: "" };
 
     case GET_USERS:
