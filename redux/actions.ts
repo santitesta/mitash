@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 let token: string = process.env.NEXT_PUBLIC_TOKEN as string;
 let url: string;
@@ -33,14 +34,20 @@ export function login(loginUserDto: any): any {
     return axios
       .post(`${url}/user/login`, { user: loginUserDto })
       .then((res) => {
+        toast.success('Inicio de sesión satisfactorio')
         dispatch({ type: LOGIN, payload: res.data });
       })
-      .catch((error) => console.log("Error en login: ", error));
+      .catch((error) => {
+        console.log("Error en login: ", error);
+        if (error.code === "ERR_NETWORK") error.message = "servidor caído";
+        toast.error(`Error: ${error.message}`);
+      });
   };
 }
 
 export function logout(): any {
   return async function (dispatch: any) {
+    toast.success('Cierre sesión satisfactorio')
     return dispatch({ type: LOGOUT, payload: null });
   };
 }

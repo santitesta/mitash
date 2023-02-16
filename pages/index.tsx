@@ -1,20 +1,32 @@
 import Head from "next/head";
-import Layout from "../components/layout";
 import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../customHooks";
 import { checkAuth, login, logout } from "../redux/actions";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Home() {
   const dispatch = useAppDispatch();
   const { register, unregister, handleSubmit, watch, reset } = useForm();
+  const [loading, setLoading] = useState(true);
   const authToken: string = useAppSelector((store) => store.token);
 
   useEffect(() => {
     let token: string | null = localStorage.getItem("token");
     if (!token) token = "";
     dispatch(checkAuth(token));
+  }, []);
+
+  useEffect(() => {
+    async function checkToken() {
+      let token: string | null = localStorage.getItem("token");
+      if (!token) token = "";
+      await dispatch(checkAuth(token));
+      setLoading(false);
+    }
+    checkToken();
   }, []);
 
   async function onSubmit(data: any): Promise<any> {
@@ -35,7 +47,10 @@ export default function Home() {
       <div className="flex flex-col place-content-center place-items-center h-screen w-full text-gray-900">
         <h1 className="text-6xl">Mitash</h1>
         <p className="text-xl">Seguimiento interno de equipos</p>
-        {authToken?.length ? (
+        <ToastContainer />
+        {loading ? (
+          <div className="bg-violet-500">Loading</div>
+        ) : authToken?.length ? (
           <button onClick={handleLogout}>Cerrar sesión</button>
         ) : (
           <>
