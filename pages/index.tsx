@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../customHooks";
 import { checkAuth, login, logout } from "../redux/actions";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import Loading from "../components/Loading";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -49,9 +50,11 @@ export default function Home() {
         <p className="text-xl">Seguimiento interno de equipos</p>
         <ToastContainer />
         {loading ? (
-          <div className="bg-violet-500">Loading</div>
+          <Loading />
         ) : authToken?.length ? (
-          <button onClick={handleLogout}>Cerrar sesión</button>
+          <button className="btn" onClick={handleLogout}>
+            Cerrar sesión
+          </button>
         ) : (
           <>
             <label htmlFor="login" className="btn" id="buttonLogin">
