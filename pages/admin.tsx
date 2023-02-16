@@ -43,7 +43,7 @@ const UsersGrid = () => {
             />
             <input
               className="input"
-              type="text"
+              type="password"
               placeholder="Contraseña"
               {...register("password")}
             />

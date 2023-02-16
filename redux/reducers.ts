@@ -1,4 +1,5 @@
 import {
+  LOGIN,
   GET_USERS,
   GET_DEVICES,
   GET_CLIENTS,
@@ -7,6 +8,8 @@ import {
   CREATE_CLIENT,
   CREATE_DEVICE,
   CREATE_ORDER,
+  CHECK_AUTH,
+  LOGOUT,
 } from "./actions";
 
 const initialState = {
@@ -14,6 +17,7 @@ const initialState = {
   devices: [],
   clients: [],
   orders: [],
+  token: "",
 };
 
 export function rootReducer(
@@ -21,6 +25,15 @@ export function rootReducer(
   { type, payload }: { type: string; payload: any }
 ) {
   switch (type) {
+    case CHECK_AUTH:
+      return { ...state, token: payload };
+
+    case LOGIN:
+      return { ...state, token: payload.user.token };
+
+    case LOGOUT:
+      return { ...state, token: "" };
+
     case GET_USERS:
       return { ...state, users: payload };
 

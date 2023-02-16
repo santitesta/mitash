@@ -10,6 +10,9 @@ if (process.env.NODE_ENV === "production") {
   url = "http://localhost:3001";
 }
 
+export const CHECK_AUTH = "CHECK_AUTH";
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
 export const GET_USERS = "GET_USERS";
 export const CREATE_USER = "CREATE_USER";
 export const GET_DEVICES = "GET_DEVICES";
@@ -18,6 +21,29 @@ export const GET_CLIENTS = "GET_CLIENTS";
 export const CREATE_CLIENT = "CREATE_CLIENT";
 export const GET_ORDERS = "GET_ORDERS";
 export const CREATE_ORDER = "CREATE_ORDER";
+
+export function checkAuth(token: any): any {
+  return async function (dispatch: any) {
+    return dispatch({ type: CHECK_AUTH, payload: token });
+  };
+}
+
+export function login(loginUserDto: any): any {
+  return async function (dispatch: any) {
+    return axios
+      .post(`${url}/user/login`, { user: loginUserDto })
+      .then((res) => {
+        dispatch({ type: LOGIN, payload: res.data });
+      })
+      .catch((error) => console.log("Error en login: ", error));
+  };
+}
+
+export function logout(): any {
+  return async function (dispatch: any) {
+    return dispatch({ type: LOGOUT, payload: null });
+  };
+}
 
 export function getUsers(): any {
   return async function (dispatch: any) {
