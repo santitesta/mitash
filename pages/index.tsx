@@ -8,6 +8,8 @@ import Loading from "../components/Loading";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import base64url from "base64url";
+import Image from "next/image";
+import Logo from './../utilities/logoBig.png';
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -59,8 +61,7 @@ export default function Home() {
         <title>Mitash</title>
       </Head>
       <div className="flex flex-col place-content-center place-items-center h-screen w-full text-gray-900">
-        <h1 className="text-6xl">Mitash</h1>
-        <p className="text-xl">Seguimiento interno de equipos</p>
+      <Image src={Logo} alt="Logo" width={512} height={256}/>
         <ToastContainer />
         {loading ? (
           <Loading />
