@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../customHooks";
-import { checkAuth, login, logout } from "../redux/actions";
+import { login, logout } from "../redux/actions";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Loading from "../components/Loading";
@@ -9,41 +9,43 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import base64url from "base64url";
 import Image from "next/image";
-import Logo from './../utilities/logoBig.png';
+import Logo from "./../utilities/logoBig.png";
 
 export default function Home() {
   const dispatch = useAppDispatch();
   const { register, unregister, handleSubmit, watch, reset } = useForm();
   const [loading, setLoading] = useState(true);
-  const authToken: string = useAppSelector((store) => store.token);
+  const [token, setToken] = useState("");
+  const tokenStore = useAppSelector((store) => store.token);
 
   useEffect(() => {
-    async function checkToken() {
-      let token: string | null = localStorage.getItem("token");
-      if (!token) {
-        setLoading(false);
-        console.log("No token in localStorage");
-        return;
-      }
-
-      const [headerEncoded, payloadEncoded, signatureEncoded] =
-        token.split(".");
-
-      const payload = JSON.parse(base64url.decode(payloadEncoded));
-
-      if (payload.exp && Date.now() >= payload.exp * 1000) {
-        // Token has expired
-        console.log("Token expired");
-        logout();
-        setLoading(false);
-        return;
-      }
-
-      await dispatch(checkAuth(token));
+    let authToken: string | null = localStorage.getItem("token");
+    if (!authToken) {
       setLoading(false);
+      console.log("No token in localStorage");
+      return;
     }
-    checkToken();
+
+    const [headerEncoded, payloadEncoded, signatureEncoded] =
+      authToken.split(".");
+
+    const payload = JSON.parse(base64url.decode(payloadEncoded));
+
+    if (payload.exp && Date.now() >= payload.exp * 1000) {
+      console.log("Token expired");
+      logout();
+      setLoading(false);
+      return;
+    } else if (payload.exp) {
+      setToken(authToken);
+      setLoading(false);
+      return;
+    }
   }, []);
+
+  useEffect(() => {
+    if (tokenStore.length) setToken(tokenStore);
+  }, [tokenStore]);
 
   async function onSubmit(data: any): Promise<any> {
     await dispatch(login(data));
@@ -52,6 +54,7 @@ export default function Home() {
 
   async function handleLogout(): Promise<any> {
     await dispatch(logout("Cierre de sesión satisfactorio"));
+    setToken("");
   }
 
   return (
@@ -61,11 +64,11 @@ export default function Home() {
         <title>Mitash</title>
       </Head>
       <div className="flex flex-col place-content-center place-items-center h-screen w-full text-gray-900">
-      <Image src={Logo} alt="Logo" width={512} height={256}/>
+        <Image src={Logo} alt="Logo" width={512} height={256} />
         <ToastContainer />
         {loading ? (
           <Loading />
-        ) : authToken?.length ? (
+        ) : token?.length ? (
           <button className="btn" onClick={handleLogout}>
             Cerrar sesión
           </button>

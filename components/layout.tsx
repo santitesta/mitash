@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { useAppDispatch, useAppSelector } from "../customHooks";
-import { checkAuth } from "../redux/actions";
+import { logout } from "../redux/actions";
+import base64url from "base64url";
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -9,22 +10,42 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
-  const authToken: string = useAppSelector((store) => store.token);
+  const [token, setToken] = useState("");
+  const tokenStore = useAppSelector((store) => store.token);
 
   useEffect(() => {
-    async function checkToken() {
-      let token: string | null = localStorage.getItem("token");
-      if (!token) token = "";
-      await dispatch(checkAuth(token));
+    let authToken: string | null = localStorage.getItem("token");
+    if (!authToken) {
       setLoading(false);
+      console.log("No token in localStorage");
+      return;
     }
-    checkToken();
+
+    const [headerEncoded, payloadEncoded, signatureEncoded] =
+      authToken.split(".");
+
+    const payload = JSON.parse(base64url.decode(payloadEncoded));
+
+    if (payload.exp && Date.now() >= payload.exp * 1000) {
+      console.log("Token expired");
+      logout();
+      setLoading(false);
+      return;
+    } else if (payload.exp) {
+      setToken(authToken);
+      setLoading(false);
+      return;
+    }
   }, []);
+
+  useEffect(() => {
+    if (tokenStore.length) setToken(tokenStore);
+  }, [tokenStore]);
 
   return (
     <div className="min-h-screen">
       <Navbar />
-      {authToken.length ? (
+      {token.length ? (
         <>{children}</>
       ) : (
         <div className="flex justify-center">
