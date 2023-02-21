@@ -25,16 +25,28 @@ export const CREATE_ORDER = "CREATE_ORDER";
 
 export function checkAuth(token: any): any {
   return async function (dispatch: any) {
-    return dispatch({ type: CHECK_AUTH, payload: token });
+    return axios
+      .get(`${url}/employee`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log("Trigger");
+        dispatch({ type: CHECK_AUTH, payload: res.data });
+      })
+      .catch((error) => {
+        console.log(`Error: ${error.message}`, error);
+      });
   };
 }
 
 export function login(loginUserDto: any): any {
   return async function (dispatch: any) {
     return axios
-      .post(`${url}/user/login`, { user: loginUserDto })
+      .post(`${url}/employee/login`, { employee: loginUserDto })
       .then((res) => {
-        toast.success('Inicio de sesión satisfactorio')
+        toast.success("Inicio de sesión satisfactorio");
         dispatch({ type: LOGIN, payload: res.data });
       })
       .catch((error) => {
@@ -45,9 +57,9 @@ export function login(loginUserDto: any): any {
   };
 }
 
-export function logout(): any {
+export function logout(message?: string): any {
   return async function (dispatch: any) {
-    toast.success('Cierre sesión satisfactorio')
+    if (message) toast.success(message);
     return dispatch({ type: LOGOUT, payload: null });
   };
 }
@@ -55,7 +67,7 @@ export function logout(): any {
 export function getUsers(): any {
   return async function (dispatch: any) {
     return axios
-      .get(`${url}/users`, {
+      .get(`${url}/employees`, {
         headers: {
           Authorization: `Token ${token}`,
         },
@@ -67,11 +79,11 @@ export function getUsers(): any {
   };
 }
 
-export function createUser(user: any): any {
+export function createUser(employee: any): any {
   return async function (dispatch: any) {
     return axios
-      .post(`${url}/user`, {
-        user,
+      .post(`${url}/employee`, {
+        employee,
         headers: {
           Authorization: `Token ${token}`,
         },

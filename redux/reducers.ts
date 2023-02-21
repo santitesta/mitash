@@ -13,7 +13,7 @@ import {
 } from "./actions";
 
 const initialState = {
-  users: [],
+  employees: [],
   devices: [],
   clients: [],
   orders: [],
@@ -26,21 +26,21 @@ export function rootReducer(
 ) {
   switch (type) {
     case CHECK_AUTH:
-      return { ...state, token: payload };
+      return { ...state, token: payload.employee.token };
 
     case LOGIN:
-      localStorage.setItem("token", payload.user.token);
-      return { ...state, token: payload.user.token };
+      localStorage.setItem("token", payload.employee.token);
+      return { ...state, token: payload.employee.token };
 
     case LOGOUT:
       localStorage.removeItem("token");
       return { ...state, token: "" };
 
     case GET_USERS:
-      return { ...state, users: payload };
+      return { ...state, employees: payload };
 
     case CREATE_USER:
-      return { ...state, users: [...state.users, payload.user] };
+      return { ...state, employees: [...state.employees, payload.employee] };
 
     case GET_DEVICES:
       return { ...state, devices: payload };

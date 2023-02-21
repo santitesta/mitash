@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 
 const UsersGrid = () => {
   const dispatch = useAppDispatch();
-  const users: any = useAppSelector((state) => state.users);
+  const employees: any = useAppSelector((state) => state.employees);
   const { register, unregister, handleSubmit, watch, reset } = useForm();
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const UsersGrid = () => {
                 </tr>
               </thead>
               <tbody>
-                {users?.map((u: any, index: number) => {
+                {employees?.map((u: any, index: number) => {
                   return (
                     <tr key={index}>
                       <td>{u.username}</td>

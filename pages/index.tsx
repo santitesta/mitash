@@ -5,8 +5,9 @@ import { checkAuth, login, logout } from "../redux/actions";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Loading from "../components/Loading";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import base64url from "base64url";
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -15,15 +16,27 @@ export default function Home() {
   const authToken: string = useAppSelector((store) => store.token);
 
   useEffect(() => {
-    let token: string | null = localStorage.getItem("token");
-    if (!token) token = "";
-    dispatch(checkAuth(token));
-  }, []);
-
-  useEffect(() => {
     async function checkToken() {
       let token: string | null = localStorage.getItem("token");
-      if (!token) token = "";
+      if (!token) {
+        setLoading(false);
+        console.log("No token in localStorage");
+        return;
+      }
+
+      const [headerEncoded, payloadEncoded, signatureEncoded] =
+        token.split(".");
+
+      const payload = JSON.parse(base64url.decode(payloadEncoded));
+
+      if (payload.exp && Date.now() >= payload.exp * 1000) {
+        // Token has expired
+        console.log("Token expired");
+        logout();
+        setLoading(false);
+        return;
+      }
+
       await dispatch(checkAuth(token));
       setLoading(false);
     }
@@ -36,7 +49,7 @@ export default function Home() {
   }
 
   async function handleLogout(): Promise<any> {
-    await dispatch(logout());
+    await dispatch(logout("Cierre de sesión satisfactorio"));
   }
 
   return (
