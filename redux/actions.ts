@@ -5,7 +5,7 @@ let token: string = process.env.NEXT_PUBLIC_TOKEN as string;
 let url: string;
 if (process.env.NODE_ENV === "production") {
   // The production url
-  // url = ''
+  url = "http://52.67.176.152:8080";
 } else {
   // The local host
   url = "http://localhost:3001";
