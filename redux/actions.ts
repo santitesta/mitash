@@ -1,7 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-let token: string = process.env.NEXT_PUBLIC_TOKEN as string;
 let url: string;
 if (process.env.NODE_ENV === "production") {
   // The production url
@@ -67,11 +66,7 @@ export function logout(message?: string): any {
 export function getUsers(): any {
   return async function (dispatch: any) {
     return axios
-      .get(`${url}/employees`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
+      .get(`${url}/employees`)
       .then((res) => {
         dispatch({ type: GET_USERS, payload: res.data });
       })
@@ -84,9 +79,6 @@ export function createUser(employee: any): any {
     return axios
       .post(`${url}/employee`, {
         employee,
-        headers: {
-          Authorization: `Token ${token}`,
-        },
       })
       .then((res) => {
         dispatch({ type: CREATE_USER, payload: res.data });
@@ -104,11 +96,7 @@ export function createUser(employee: any): any {
 export function getDevices(): any {
   return async function (dispatch: any) {
     return axios
-      .get(`${url}/devices`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
+      .get(`${url}/devices`)
       .then((res) => {
         dispatch({ type: GET_DEVICES, payload: res.data });
       })
@@ -121,9 +109,6 @@ export function createDevice(data: any): any {
     return axios
       .post(`${url}/device/${data.clientId}`, {
         device: data.device,
-        headers: {
-          Authorization: `Token ${token}`,
-        },
       })
       .then((res) => {
         dispatch({ type: CREATE_DEVICE, payload: res.data });
@@ -141,11 +126,7 @@ export function createDevice(data: any): any {
 export function getClients(): any {
   return async function (dispatch: any) {
     return axios
-      .get(`${url}/clients`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
+      .get(`${url}/clients`)
       .then((res) => {
         dispatch({ type: GET_CLIENTS, payload: res.data });
       })
@@ -158,9 +139,6 @@ export function createClient(client: any): any {
     return axios
       .post(`${url}/client`, {
         client,
-        headers: {
-          Authorization: `Token ${token}`,
-        },
       })
       .then((res) => {
         dispatch({ type: CREATE_CLIENT, payload: res.data });
@@ -178,11 +156,7 @@ export function createClient(client: any): any {
 export function getOrders(): any {
   return async function (dispatch: any) {
     return axios
-      .get(`${url}/orders`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
+      .get(`${url}/orders`)
       .then((res) => {
         dispatch({ type: GET_ORDERS, payload: res.data });
       })
@@ -195,9 +169,6 @@ export function createOrder(order: any): any {
     return axios
       .post(`${url}/order`, {
         order,
-        headers: {
-          Authorization: `Token ${token}`,
-        },
       })
       .then((res) => {
         dispatch({ type: CREATE_ORDER, payload: res.data });
