@@ -22,23 +22,23 @@ export const CREATE_CLIENT = "CREATE_CLIENT";
 export const GET_ORDERS = "GET_ORDERS";
 export const CREATE_ORDER = "CREATE_ORDER";
 
-export function checkAuth(token: any): any {
-  return async function (dispatch: any) {
-    return axios
-      .get(`${url}/employee`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
-      .then((res) => {
-        console.log("Trigger");
-        dispatch({ type: CHECK_AUTH, payload: res.data });
-      })
-      .catch((error) => {
-        console.log(`Error: ${error.message}`, error);
-      });
-  };
-}
+// export function checkAuth(token: any): any {
+//   return async function (dispatch: any) {
+//     return axios
+//       .get(`${url}/employee`, {
+//         headers: {
+//           Authorization: `Token ${token}`,
+//         },
+//       })
+//       .then((res) => {
+//         console.log("Trigger");
+//         dispatch({ type: CHECK_AUTH, payload: res.data });
+//       })
+//       .catch((error) => {
+//         console.log(`Error: ${error.message}`, error);
+//       });
+//   };
+// }
 
 export function login(loginUserDto: any): any {
   return async function (dispatch: any) {
