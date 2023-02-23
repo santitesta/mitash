@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === "production") {
   url = "http://52.67.176.152:8080";
 } else {
   // The local host
-  url = "http://localhost:3001";
+  url = "http://localhost:8080";
 }
 
 export const CHECK_AUTH = "CHECK_AUTH";
