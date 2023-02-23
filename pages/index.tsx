@@ -1,53 +1,121 @@
-// import axios from "axios"
-// import { useState } from "react"
-// import { getUsers } from "../redux/actions"
-
+import Head from "next/head";
+import { useForm } from "react-hook-form";
+import { useAppDispatch, useAppSelector } from "../customHooks";
+import { login, logout } from "../redux/actions";
+import { useEffect, useState } from "react";
+import Navbar from "../components/Navbar";
+import Loading from "../components/Loading";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import base64url from "base64url";
+import Image from "next/image";
+import Logo from "./../utilities/logoBig.png";
 
 export default function Home() {
-  // const [employeesBro, setEmployeesBro] = useState<any[]>([])
+  const dispatch = useAppDispatch();
+  const { register, unregister, handleSubmit, watch, reset } = useForm();
+  const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState("");
+  const tokenStore = useAppSelector((store) => store.token);
 
-  // const employee = {
-  //   name: 'Pato fontanet',
-  //   role: 'Tiburon'
-  // }
+  useEffect(() => {
+    let authToken: string | null = localStorage.getItem("token");
+    if (!authToken) {
+      setLoading(false);
+      console.log("No token in localStorage");
+      return;
+    }
 
-  // const employee2 = {
-  //   name: 'Javier el galan',
-  //   role: 'Doble de riesgo'
-  // }
+    const [headerEncoded, payloadEncoded, signatureEncoded] =
+      authToken.split(".");
 
-  // function postEmployee() {
-  //   axios.post('http://localhost:8000/newemployee', employee)
-  //     .then(resp => console.log('Todo bien cabro: ', resp))
-  //     .catch(error => console.log('Se rompio tooo'))
-  // }
+    const payload = JSON.parse(base64url.decode(payloadEncoded));
 
-  // function postEmployee2() {
-  //   axios.post('http://localhost:8000/newemployee', employee2)
-  //     .then(resp => console.log('Todo bien cabro: ', resp))
-  //     .catch(error => console.log('Se rompio tooo'))
-  // }
+    if (payload.exp && Date.now() >= payload.exp * 1000) {
+      console.log("Token expired");
+      logout();
+      setLoading(false);
+      return;
+    } else if (payload.exp) {
+      setToken(authToken);
+      setLoading(false);
+      return;
+    }
+  }, []);
 
-  // async function getEmployees() {
-  //   const users = await getUsers()
-  //   console.log('Users broder: ', users)
-  //   // if(users.data) setEmployeesBro(users.data)
-  // }
+  useEffect(() => {
+    if (tokenStore.length) setToken(tokenStore);
+  }, [tokenStore]);
+
+  async function onSubmit(data: any): Promise<any> {
+    await dispatch(login(data));
+    reset();
+  }
+
+  async function handleLogout(): Promise<any> {
+    await dispatch(logout("Cierre de sesión satisfactorio"));
+    setToken("");
+  }
 
   return (
-    <div className="flex flex-col place-content-center place-items-center h-screen w-screen bg-blue-500">
-      <h1 className="text-6xl">Mitash</h1>
-      <p className="text-xl">Seguimiento interno de equipos</p>
-      {/* <button className="btn" onClick={postEmployee}>Sumame al pato</button>
-      <button className="btn" onClick={postEmployee2}>Sumame a javier</button>
-      <button className="btn" onClick={getEmployees}>Traeme al pato y javi</button> */}
-      {/* {employeesBro.length
-        ? employeesBro.map((e, i) => {
-          return (
-            <h1 key={i}>{e.name}</h1>
-          )
-        })
-        : <h1>Sorry, no employees</h1>} */}
+    <div className="min-h-screen">
+      <Navbar />
+      <Head>
+        <title>Mitash</title>
+      </Head>
+      <div className="flex flex-col place-content-center place-items-center h-screen w-full text-gray-900">
+        <Image src={Logo} alt="Logo" width={512} height={256} />
+        <ToastContainer />
+        {loading ? (
+          <Loading />
+        ) : token?.length ? (
+          <button className="btn" onClick={handleLogout}>
+            Cerrar sesión
+          </button>
+        ) : (
+          <>
+            <label htmlFor="login" className="btn" id="buttonLogin">
+              Iniciar sesión
+            </label>
+
+            <input type="checkbox" id="login" className="modal-toggle" />
+            <div className="modal">
+              <div className="modal-box bg-slate-300 w-72 flex place-content-center">
+                <label
+                  htmlFor="login"
+                  className="btn btn-xs btn-circle absolute right-2 top-2"
+                >
+                  ✕
+                </label>
+                <form
+                  className="flex flex-col gap-3 w-4/5 items-center"
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <input
+                    className="input bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none
+                focus:border-blue-200 focus:ring-1 focus:ring-blue-300 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
+                    type="text"
+                    placeholder="Email"
+                    {...register("email")}
+                  />
+                  <input
+                    className="input bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none
+                focus:border-blue-200 focus:ring-1 focus:ring-blue-300 disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
+                    type="password"
+                    placeholder="Contraseña"
+                    {...register("password")}
+                  />
+                  <input
+                    className="input bg-green-800 hover:cursor-pointer hover:bg-green-500 hover:text-black"
+                    type="submit"
+                    value="Iniciar sesión"
+                  />
+                </form>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
     </div>
-  )
+  );
 }
