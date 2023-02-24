@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 let url: string;
 if (process.env.NODE_ENV === "production") {
   // The production url
-  url = "http://52.67.176.152:8080";
+  url = "https://mitash.store";
 } else {
   // The local host
   url = "http://localhost:8080";
