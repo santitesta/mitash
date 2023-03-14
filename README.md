@@ -1,6 +1,6 @@
 ## Mitash
 
-This application is a CRM for Mitash.
+This application is a CRM for Mitash developed by Santiago Testa and Martín Cogliatti.
 
 ## How to run locally:
 
