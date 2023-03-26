@@ -74,7 +74,7 @@ const Device = () => {
             <input
               className="input bg-green-800 hover:cursor-pointer hover:bg-green-500 hover:text-black"
               type="submit"
-              value="Crear usuario"
+              value="Crear equipo"
             />
           </form>
           <table className="table">

@@ -20,6 +20,7 @@ const UsersGrid = () => {
   }, []);
 
   async function onSubmit(data: any): Promise<any> {
+    data.role = "Tecnico";
     await dispatch(createUser(data));
     reset();
   }
@@ -53,13 +54,6 @@ const UsersGrid = () => {
               placeholder="Email"
               {...register("email")}
             />
-            <select className="select w-full max-w-xs" {...register("role")}>
-              <option hidden defaultValue="">
-                Seleccione su rol
-              </option>
-              <option value="Tecnico">Tecnico</option>
-              <option value="Director">Director</option>
-            </select>
             <input
               className="input bg-green-800 hover:cursor-pointer hover:bg-green-500 hover:text-black"
               type="submit"
