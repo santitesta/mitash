@@ -83,7 +83,6 @@ const Device = () => {
                 <th>id</th>
                 <th>N° Serie</th>
                 <th>Tipo</th>
-                <th>A cargo de</th>
                 <th>Dueño</th>
               </tr>
             </thead>
@@ -94,7 +93,6 @@ const Device = () => {
                     <td>{d.id}</td>
                     <td>{d.serialNumber}</td>
                     <td>{d.type}</td>
-                    <td>{d.inCharge?.username}</td>
                     <td>{d.owner?.name}</td>
                     {/* <td>
                     TBD User Deletion

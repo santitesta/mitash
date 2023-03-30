@@ -8,6 +8,7 @@ import {
   CREATE_CLIENT,
   CREATE_DEVICE,
   CREATE_ORDER,
+  ASSIGN_EMPLOYEE,
   CHECK_AUTH,
   LOGOUT,
 } from "./actions";
@@ -59,6 +60,18 @@ export function rootReducer(
 
     case CREATE_ORDER:
       return { ...state, orders: [...state.orders, payload.order] };
+
+    case ASSIGN_EMPLOYEE:
+      const orderIndex = state.orders.findIndex(
+        (o: any) => o.id === payload.order.id
+      );
+      const updatedOrder = {
+        ...(state.orders[orderIndex] as object),
+        employee: payload.order.employee,
+      };
+      const updatedOrders = [...state.orders];
+      (updatedOrders[orderIndex] as any) = updatedOrder;
+      return { ...state, orders: updatedOrders };
 
     default:
       return state;

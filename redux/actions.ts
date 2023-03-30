@@ -13,14 +13,19 @@ if (process.env.NODE_ENV === "production") {
 export const CHECK_AUTH = "CHECK_AUTH";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
+
 export const GET_USERS = "GET_USERS";
 export const CREATE_USER = "CREATE_USER";
+
 export const GET_DEVICES = "GET_DEVICES";
 export const CREATE_DEVICE = "CREATE_DEVICE";
+
 export const GET_CLIENTS = "GET_CLIENTS";
 export const CREATE_CLIENT = "CREATE_CLIENT";
+
 export const GET_ORDERS = "GET_ORDERS";
 export const CREATE_ORDER = "CREATE_ORDER";
+export const ASSIGN_EMPLOYEE = "ASSIGN_EMPLOYEE";
 
 // export function checkAuth(token: any): any {
 //   return async function (dispatch: any) {
@@ -51,7 +56,7 @@ export function login(loginUserDto: any): any {
       .catch((error) => {
         console.log("Error en login: ", error);
         if (error.code === "ERR_NETWORK") error.message = "servidor caído";
-        toast.error(`Error: ${error.message}`);
+        toast.error(`Error: ${error.response?.data?.message}`);
       });
   };
 }
@@ -167,7 +172,7 @@ export function getOrders(): any {
 export function createOrder(order: any): any {
   return async function (dispatch: any) {
     return axios
-      .post(`${url}/order`, {
+      .post(`${url}/order/update`, { // TBD: Add orderId in the params. Check orderController
         order,
       })
       .then((res) => {
@@ -178,6 +183,28 @@ export function createOrder(order: any): any {
           "Error en createOrder: ",
           error.message,
           error.response.data.message
+        )
+      );
+  };
+}
+
+export function assignEmployee(data: any): any {
+  console.log("Data: ", data);
+  console.log("Data: ", data.orderId, typeof data.orderId);
+  return async function (dispatch: any) {
+    return axios
+      .put(`${url}/order/assign`, {
+        orderId: data.orderId,
+        employeeId: data.employeeId,
+      })
+      .then((res) => {
+        dispatch({ type: ASSIGN_EMPLOYEE, payload: res.data });
+      })
+      .catch((error) =>
+        console.log(
+          "Error en assignEmployee: ",
+          error.message,
+          error.response?.data.message
         )
       );
   };
